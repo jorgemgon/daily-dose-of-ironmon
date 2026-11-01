@@ -4,6 +4,22 @@ The daily mode is **Kaizo Ironmon** on FireRed (U) 1.1, with the modifications b
 from the standard, Ultimate and Kaizo rulesets applies unless a daily override says otherwise
 [Original Kaizo / Ironmon rules](https://gist.github.com/valiant-code/adb18d248fa0fae7da6b639e2ee8f9c1).
 
+## Setup
+
+1. Install the Ironmon Tracker (9.3+) in BizHawk.
+2. Copy the Daily Dose extension folder into `<tracker>/extensions` and enable it in
+   Tracker Settings.
+3. Open the DDI screen, set your handle, and register your own clean FireRed (U) 1.1 ROM when
+   prompted. No ROMs are hosted here.
+4. Java 8+ is required; the extension uses the Tracker’s Java path or finds a compatible JDK.
+5. Press **Start attempt**: the extension applies Faster FireRed, runs the pinned randomizer and
+   opens today’s ROM.
+6. Keep the generated `.gba` and `.log` together. The extension enables Open Book play mode
+   automatically when the attempt starts or resumes; manually it lives under tracker gear →
+   **Gameplay** → **Other**.
+7. Closing BizHawk is fine — use **Resume attempt**.
+
+See [install.md](../install.md) for the full walkthrough.
 ## Daily overrides
 
 | Rule | Detail |
@@ -13,7 +29,7 @@ from the standard, Ultimate and Kaizo rulesets applies unless a daily override s
 | Today's ROM only | The run must use the ROM generated from today's published seed, settings string, pinned jar and base patch; the extension verifies its SHA-1. |
 | 100 % catch rate | Guaranteed catch is part of the pinned settings (no failed balls). |
 | Weighted species | The lab and the routes up to Viridian Forest favour stronger, better-spread, better-moved Pokémon; later areas use a lighter BST weighting. Event days may bias types (published with the seed). |
-| Open book | The day's randomizer log is public before anyone starts, and the tracker runs with Open Book mode so trainer teams, encounters and movesets are visible. |
+| Open book | The day's randomizer log is public before anyone starts. The extension enables Open Book mode automatically when the attempt opens, so trainer teams, encounters and movesets are visible. |
 | Faster FireRed 1.2 (standard) | The QoL patch is applied before randomization: hidden items are visibly marked, the Viridian Forest nurse exists, the Oak parcel quest is shortened, repels prompt reuse, instant PC heal, renamers everywhere, PC item in the lab, and the one-time friendship NPC. These are part of the daily ruleset; everyone plays the same ROM. |
 | Save states | A load that erases progress already submitted to the leaderboard voids the run. Loads before the first milestone (lab resets) are allowed. In-game saves are the supported resume point. |
 | Close and reopen | BizHawk may be closed and reopened at any time. The run resumes from the in-game save; time with the emulator closed is not counted toward real time. |

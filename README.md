@@ -32,7 +32,8 @@ Full setup, including Java and the pinned randomizer jar, is in [docs/install.md
   Closing and reopening BizHawk is supported — resume from your in-game save.
 - **Two scores** per run: depth-first progress points, speed as the tiebreak, computed twice —
   in-game clock and real clock.
-- **Open book**: the day's log is public; the tracker runs with Open Book mode enabled.
+- **Open book**: the day's log is public; the tracker runs with Open Book mode enabled. The
+  extension turns it on automatically when an attempt is started or resumed.
 
 Rules by game: [docs/rules.md](docs/rules.md) · Scoring: [docs/scoring.md](docs/scoring.md) ·
 Attempt and resume rules: [docs/attempt.md](docs/attempt.md) · API: [docs/api.md](docs/api.md).

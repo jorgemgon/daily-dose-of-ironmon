@@ -20,8 +20,9 @@ consumed if it was never confirmed.
 
 **The Log Overlay is empty**
 The tracker needs `<rom>.gba.log` next to the ROM. The extension writes it during generation and
-falls back to downloading the canonical log text. If it is still empty, check that Open Book Play
-Mode is enabled and that the tracker is 9.3+.
+falls back to downloading the canonical log text. Daily Dose enables Open Book play mode
+automatically when an attempt starts or resumes, so check that the tracker is 9.3+ and that the
+option is still on under tracker gear → **Gameplay** → **Other**.
 
 **"that attempt is no longer available"**
 The run is active, or Brock has already been beaten and the day is locked server-side. Closing and

@@ -14,7 +14,9 @@
 
 1. Copy this repository into `<BizHawk>/IronMon Tracker/extensions/` (the tracker's Extensions
    screen installs it from the repository URL; the repo root is the extension root).
-2. Tracker Settings → Extensions: enable **Daily Dose of Ironmon** and **Open Book Play Mode**.
+2. Tracker Settings → Extensions: enable **Daily Dose of Ironmon**. The extension enables
+   **Open Book play mode** automatically when an attempt is started or resumed; you can also turn
+   it on manually under the tracker gear → **Gameplay** → **Other**.
 3. Open the Daily Dose screen (the `[DDI]` chip at the bottom-right of the tracker panel, or it
    opens automatically when a Daily Dose ROM is loaded).
 4. **Register / recover** → pick a handle. The token is stored in the tracker's `Settings.ini`
