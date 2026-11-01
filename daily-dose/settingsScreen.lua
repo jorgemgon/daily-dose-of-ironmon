@@ -82,6 +82,29 @@ local function layout()
 		SettingsScreen.status = deps.copyToken() or "No token yet."
 	end
 
+	local function loginWithTwitch()
+		local session, err = deps.twitchBegin()
+		if not session then
+			SettingsScreen.status = "Twitch login failed: " .. tostring(err)
+			return
+		end
+		SettingsScreen.pendingTwitch = session
+		if deps.openBrowser then
+			deps.openBrowser(session.login_url)
+		end
+		SettingsScreen.status = "Browser opened. Finish Twitch login, then Check."
+	end
+
+	local function checkTwitch()
+		local pending = SettingsScreen.pendingTwitch
+		if not pending then
+			SettingsScreen.status = "Press Login with Twitch first."
+			return
+		end
+		local ok, err = deps.twitchCheck(pending.session_id, pending.poll_token)
+		SettingsScreen.status = ok and ("Logged in as @" .. tostring(deps.handle() or "")) or tostring(err)
+	end
+
 	if SettingsScreen.recoveryMode then
 		addButton("SetCode", x, 56, 64, function()
 			return "Set code"

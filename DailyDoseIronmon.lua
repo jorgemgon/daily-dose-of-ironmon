@@ -475,6 +475,19 @@ local function DailyDoseIronmon()
 			recover = function(handle, code)
 				return ctx.run.recover(ctx, handle, code)
 			end,
+			twitchBegin = function()
+				return ctx.run.beginTwitchLogin(ctx)
+			end,
+			twitchCheck = function(sessionId, pollToken)
+				return ctx.run.completeTwitchLogin(ctx, sessionId, pollToken)
+			end,
+			openBrowser = function(url)
+				if _G.Utils and type(_G.Utils.openBrowserWindow) == "function" then
+					_G.Utils.openBrowserWindow(url, true)
+				else
+					print("> " .. tostring(url))
+				end
+			end,
 			copyToken = copyToken,
 			back = function()
 				Program.changeScreenView(SingleExtensionScreen or CustomExtensionsScreen or TrackerScreen)
