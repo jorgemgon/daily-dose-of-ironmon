@@ -48,10 +48,11 @@ extension rejects a manifest that fails validation or is for a different mode.
 }
 ```
 
-Rules enforced by validation: `mode == "kaizo"`, 13 milestones in the published order, points sum
-to 1000, hashes have the right lengths, `reset_at` is a number.
+Rules enforced by validation: a non-empty `mode`, 13 milestones in the published order, points sum
+to 1000, hashes have the right lengths, `reset_at` is a number. The extension additionally
+requires the manifest mode to match its configured challenge mode.
 
-`GET /api/logs/:date` (public) returns the canonical ZX-format log as text (gzip is fine; the
+`GET /api/logs/:date?mode=kaizo` (public) returns the canonical ZX-format log as text (gzip is fine; the
 client sends `--compressed`). It contains no ROM data.
 
 ## Attempt lifecycle
