@@ -5,10 +5,7 @@ local SettingsScreen = {}
 SettingsScreen.Buttons = {}
 SettingsScreen.deps = nil
 SettingsScreen.ctx = nil
-SettingsScreen.pendingHandle = nil
-SettingsScreen.pendingCode = nil
 SettingsScreen.pendingTwitch = nil
-SettingsScreen.recoveryMode = false
 SettingsScreen.status = ""
 
 local COLORS = {
@@ -27,18 +24,6 @@ local function truncate(value, maxChars)
 	return text:sub(1, maxChars - 1) .. "…"
 end
 
-local function prompt(title, initial, onSave)
-	local form = ExternalUI.BizForms.createForm(title, 380, 112, 100, 20)
-	local box = form:createTextBox(initial or "", 12, 18, 350, 22)
-	form:createButton("Save", 12, 60, function()
-		onSave(ExternalUI.BizForms.getText(box))
-		form:destroy()
-	end, 90, 24)
-	form:createButton("Cancel", 110, 60, function()
-		form:destroy()
-	end, 90, 24)
-end
-
 local function addButton(key, x, y, width, label, onClick)
 	SettingsScreen.Buttons[key] = {
 		type = Constants.ButtonTypes.FULL_BORDER,
@@ -47,7 +32,9 @@ local function addButton(key, x, y, width, label, onClick)
 			return label()
 		end,
 		onClick = function()
-			onClick()
+			if onClick then
+				onClick()
+			end
 			Program.redraw(true)
 		end,
 	}
@@ -55,19 +42,7 @@ end
 
 local function currentHandle()
 	local deps = SettingsScreen.deps
-	return SettingsScreen.pendingHandle or (deps and deps.handle()) or ""
-end
-
-local function doRecover()
-	local deps = SettingsScreen.deps
-	local handle = currentHandle()
-	local code = SettingsScreen.pendingCode
-	if handle == "" or not code or code == "" then
-		SettingsScreen.status = "Set a handle and a recovery code first."
-		return
-	end
-	local ok, err = deps.recover(handle, code)
-	SettingsScreen.status = ok and "Recovered." or tostring(err)
+	return (deps and deps.handle and deps.handle()) or ""
 end
 
 local function layout()
@@ -78,18 +53,18 @@ local function layout()
 	local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + 5
 	SettingsScreen.Buttons = {}
 
-	local function copyToken()
-		SettingsScreen.status = deps.copyToken() or "No token yet."
-	end
-
 	local function loginWithTwitch()
+		if not deps.twitchBegin then
+			SettingsScreen.status = "Twitch login is not available in this build."
+			return
+		end
 		local session, err = deps.twitchBegin()
 		if not session then
 			SettingsScreen.status = "Twitch login failed: " .. tostring(err)
 			return
 		end
 		SettingsScreen.pendingTwitch = session
-		if deps.openBrowser then
+		if deps.openBrowser and session.login_url then
 			deps.openBrowser(session.login_url)
 		end
 		SettingsScreen.status = "Browser opened. Finish Twitch login, then Check."
@@ -101,51 +76,32 @@ local function layout()
 			SettingsScreen.status = "Press Login with Twitch first."
 			return
 		end
+		if not deps.twitchCheck then
+			SettingsScreen.status = "Twitch login is not available in this build."
+			return
+		end
 		local ok, err = deps.twitchCheck(pending.session_id, pending.poll_token)
-		SettingsScreen.status = ok and ("Logged in as @" .. tostring(deps.handle() or "")) or tostring(err)
+		if ok then
+			SettingsScreen.status = "Logged in as @" .. tostring(deps.handle and deps.handle() or "")
+		else
+			SettingsScreen.status = tostring(err)
+		end
 	end
 
-	if SettingsScreen.recoveryMode then
-		addButton("SetCode", x, 56, 64, function()
-			return "Set code"
-		end, function()
-			prompt("Recovery code", "", function(value)
-				SettingsScreen.pendingCode = value
-				SettingsScreen.status = "Code set; press Recover."
-			end)
-		end)
-		addButton("Recover", x, 72, 64, function()
-			return "Recover"
-		end, doRecover)
-		addButton("CancelRecovery", x + 68, 72, 64, function()
-			return "Cancel"
-		end, function()
-			SettingsScreen.recoveryMode = false
-			SettingsScreen.status = "Recovery cancelled."
-			layout()
-		end)
-		addButton("CopyToken", x, 88, 64, function()
+	local function copyToken()
+		SettingsScreen.status = deps.copyToken() or "No token yet."
+	end
+
+	addButton("TwitchLogin", x, 42, 96, function()
+		return "Login with Twitch"
+	end, loginWithTwitch)
+	addButton("TwitchCheck", x, 58, 96, function()
+		return "Check login"
+	end, checkTwitch)
+	if deps.hasToken and deps.hasToken() then
+		addButton("CopyToken", x, 74, 64, function()
 			return "Copy token"
 		end, copyToken)
-	else
-		addButton("TwitchLogin", x, 42, 96, function()
-			return "Login with Twitch"
-		end, loginWithTwitch)
-		addButton("TwitchCheck", x, 58, 96, function()
-			return "Check login"
-		end, checkTwitch)
-		addButton("RecoverAccount", x, 74, 96, function()
-			return "Recover account"
-		end, function()
-			SettingsScreen.recoveryMode = true
-			SettingsScreen.status = "Enter the admin-issued code."
-			layout()
-		end)
-		if deps.hasToken and deps.hasToken() then
-			addButton("CopyToken", x, 90, 64, function()
-				return "Copy token"
-			end, copyToken)
-		end
 	end
 
 	SettingsScreen.Buttons.Back = Drawing.createUIElementBackButton(function()
@@ -158,14 +114,11 @@ local function layout()
 end
 
 ---@param ctx table
----@param deps table {handle, register, recover, copyToken, back}
+---@param deps table {handle, twitchBegin, twitchCheck, openBrowser, copyToken, back}
 function SettingsScreen.attach(ctx, deps)
 	SettingsScreen.ctx = ctx
 	SettingsScreen.deps = deps
-	SettingsScreen.pendingHandle = nil
-	SettingsScreen.pendingCode = nil
-SettingsScreen.pendingTwitch = nil
-	SettingsScreen.recoveryMode = false
+	SettingsScreen.pendingTwitch = nil
 	SettingsScreen.status = ""
 	layout()
 end
@@ -185,11 +138,7 @@ function SettingsScreen.drawScreen()
 
 	Drawing.drawText(x, 8, "Daily Dose settings", theme[COLORS.header])
 	local handle = currentHandle()
-	Drawing.drawText(x, 24, "Handle: " .. truncate(handle ~= "" and handle or "—", 13), theme[COLORS.text])
-
-	if SettingsScreen.recoveryMode then
-		Drawing.drawText(x, 42, "Code: " .. (SettingsScreen.pendingCode and "set" or "—"), theme[COLORS.text])
-	end
+	Drawing.drawText(x, 24, "Account: " .. truncate(handle ~= "" and ("@" .. handle) or "not logged in", 16), theme[COLORS.text])
 
 	for _, button in pairs(SettingsScreen.Buttons) do
 		if button == SettingsScreen.Buttons.Back then
@@ -205,8 +154,8 @@ function SettingsScreen.drawScreen()
 
 	local status = SettingsScreen.status or ""
 	if status ~= "" then
-		local positive = status:find("Registered") or status:find("Recovered") or status:find("saved") or status:find("enabled")
-		Drawing.drawText(x, Constants.SCREEN.HEIGHT - 12, truncate(status, 23), theme[positive and COLORS.positive or COLORS.text])
+		local positive = status:find("Logged in") or status:find("saved") or status:find("enabled")
+		Drawing.drawText(x, Constants.SCREEN.HEIGHT - 12, truncate(status, 31), theme[positive and COLORS.positive or COLORS.text])
 	end
 end
 

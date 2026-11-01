@@ -44,8 +44,8 @@ waste the day. Once a run is confirmed, progress queues locally and uploads when
 returns.
 
 **Recovering a lost token**
-Ask the admin for a one-time recovery code, then use **Register / recover** → Recover with your
-handle and the code.
+There is no separate recovery code anymore. Log in again with Twitch from the DDI settings
+screen; that rotates the token and stores the new one.
 
 **Reporting a bug**
 Include the diagnostics screen output (hashes, Java, OS, extension version) and the tracker's

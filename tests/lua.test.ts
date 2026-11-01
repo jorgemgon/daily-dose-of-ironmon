@@ -398,7 +398,7 @@ describe("submit", () => {
   });
 });
 
-describe("diagnostics and recovery", () => {
+describe("diagnostics", () => {
   it("formats a hash-only report", async () => {
     const result = await runLua(`
       local report = M.diagnostics.build({
@@ -415,23 +415,6 @@ describe("diagnostics and recovery", () => {
       return text
     `);
     expect(String(result)).toContain("expected ROM SHA-1");
-  });
-
-  it("redeems a recovery code", async () => {
-    const result = await runLua(`
-      local seen = nil
-      local api = {
-        recover = function(self, handle, code)
-          seen = { handle = handle, code = code }
-          return { status = 200, data = { handle = "Ash", token = "tok-1" } }
-        end,
-      }
-      local ok, result = M.recovery.redeem(api, "Ash", " abcd ")
-      assert(ok and result.token == "tok-1")
-      assert(seen.code == "ABCD")
-      return result.token
-    `);
-    expect(result).toBe("tok-1");
   });
 });
 

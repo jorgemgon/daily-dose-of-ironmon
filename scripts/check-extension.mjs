@@ -29,7 +29,6 @@ const REQUIRED = [
   "daily-dose/screen.lua",
   "daily-dose/hud.lua",
   "daily-dose/diagnostics.lua",
-  "daily-dose/recovery.lua",
 
   "docs/rules.md",
   "docs/api.md",

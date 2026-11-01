@@ -66,14 +66,6 @@ function Api:pollTwitchSession(sessionId, pollToken)
 	return self:request("POST", "/api/auth/twitch/session/" .. sessionId .. "/poll", { poll_token = pollToken })
 end
 
-function Api:register(handle, deviceId)
-	return self:request("POST", "/api/players", { handle = handle, device_id = deviceId })
-end
-
-function Api:recover(handle, code)
-	return self:request("POST", "/api/players/recover", { handle = handle, code = code })
-end
-
 function Api:intent(date, romSha1, deviceId, token)
 	return self:request("POST", "/api/runs/intent", {
 		date = date,

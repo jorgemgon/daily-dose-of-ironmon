@@ -23,7 +23,6 @@ be `<PUBLIC_BASE_URL>/api/auth/twitch/callback`.
 | Method | Path | Body | Response |
 |---|---|---|---|
 | POST | `/api/players` | – | `410 { "message": "Twitch login is required" }` |
-| POST | `/api/players/recover` | `{ "handle", "code" }` | `{ "handle", "token" }` |
 | GET | `/api/me` | – | `{ "handle", "runs": [...] }` |
 
 Twitch login is mandatory. Handles are derived from the Twitch login (2–20 characters).

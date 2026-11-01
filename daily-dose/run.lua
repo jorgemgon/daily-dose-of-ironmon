@@ -107,46 +107,6 @@ function Run.fetchManifest(ctx, date)
 end
 
 ---@param ctx table
----@param handle string
----@return boolean ok, string? err
-function Run.register(ctx, handle)
-	local ok, err = ctx.identity.validateHandle(handle)
-	if not ok then
-		return false, err
-	end
-	local response = ctx.api:register(handle, ctx.player.deviceId)
-	if not response or response.err then
-		return false, response and response.err or "network request failed"
-	end
-	if response.status ~= 200 and response.status ~= 201 then
-		local message = response.data and response.data.message or ("server returned " .. tostring(response.status))
-		return false, message
-	end
-	if not response.data or type(response.data.token) ~= "string" then
-		return false, "server response did not include a token"
-	end
-	ctx.player.handle = response.data.handle or handle
-	ctx.player.token = response.data.token
-	ctx.identity.save(ctx.identityDeps, ctx.player)
-	return true
-end
-
----@param ctx table
----@param handle string
----@param code string
----@return boolean ok, string? err
-function Run.recover(ctx, handle, code)
-	local ok, result = ctx.recovery.redeem(ctx.api, handle, code)
-	if not ok then
-		return false, result
-	end
-	ctx.player.handle = result.handle
-	ctx.player.token = result.token
-	ctx.identity.save(ctx.identityDeps, ctx.player)
-	return true
-end
-
----@param ctx table
 ---@return table? session, string? err
 function Run.beginTwitchLogin(ctx)
 	local response = ctx.api:createTwitchSession()

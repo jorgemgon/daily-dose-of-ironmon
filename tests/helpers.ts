@@ -15,7 +15,6 @@ export const MODULES = [
   "identity",
   "submit",
   "diagnostics",
-  "recovery",
   "rom",
 ] as const;
 

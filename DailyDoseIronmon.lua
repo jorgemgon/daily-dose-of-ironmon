@@ -60,7 +60,6 @@ local function DailyDoseIronmon()
 			screen = load("screen"),
 			hud = load("hud"),
 			diagnostics = load("diagnostics"),
-			recovery = load("recovery"),
 			profile = load("profile"),
 			settingsScreen = load("settingsScreen"),
 		}
@@ -295,7 +294,6 @@ local function DailyDoseIronmon()
 			screen = loaded.screen,
 			hud = loaded.hud,
 			diagnostics = loaded.diagnostics,
-			recovery = loaded.recovery,
 			profile = loaded.profile,
 			now = function()
 				return os.time()
@@ -468,12 +466,6 @@ local function DailyDoseIronmon()
 			end,
 			hasToken = function()
 				return ctx.player.token ~= nil and ctx.player.token ~= ""
-			end,
-			register = function(handle)
-				return ctx.run.register(ctx, handle)
-			end,
-			recover = function(handle, code)
-				return ctx.run.recover(ctx, handle, code)
 			end,
 			twitchBegin = function()
 				return ctx.run.beginTwitchLogin(ctx)
