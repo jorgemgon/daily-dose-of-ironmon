@@ -12,8 +12,8 @@ from the standard, Ultimate and Kaizo rulesets applies unless a daily override s
 3. Open the DDI screen, log in with Twitch, and register your own clean FireRed (U) 1.1 ROM when
    prompted. No ROMs are hosted here.
 4. Java 8+ is required; the extension uses the Tracker’s Java path or finds a compatible JDK.
-5. Press **Start attempt**: the extension applies Faster FireRed, runs the pinned randomizer and
-   opens today’s ROM.
+5. Press **Start attempt**: the extension runs the pinned randomizer and opens today’s ROM. When
+   the challenge publishes Faster FireRed it applies that patch first; otherwise it runs without it.
 6. Keep the generated `.gba` and `.log` together. The extension enables Open Book play mode
    automatically when the attempt starts or resumes; manually it lives under tracker gear →
    **Gameplay** → **Other**.
