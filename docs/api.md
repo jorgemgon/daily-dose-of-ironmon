@@ -26,8 +26,8 @@ be `<PUBLIC_BASE_URL>/api/auth/twitch/callback`.
 | POST | `/api/players/recover` | `{ "handle", "code" }` | `{ "handle", "token" }` |
 | GET | `/api/me` | – | `{ "handle", "runs": [...] }` |
 
-Handles are 2–20 characters, start with a letter/digit, and may contain letters, digits, `_`, `.`,
-`-`. Registration is open; duplicate-device and IP evidence is queued for admin review, not blocked.
+Twitch login is mandatory. Handles are derived from the Twitch login (2–20 characters).
+The legacy handle path is only enabled explicitly for tests; production leaves it off.
 
 ## Daily challenge
 
