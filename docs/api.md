@@ -47,6 +47,7 @@ extension rejects a manifest that fails validation or is for a different mode.
   "jar_url": "https://github.com/<owner>/ddoz-randomizer/releases/download/v1/ddoz-zx.jar",
   "settings_string": "…",
   "settings_sha256": "…64 hex…",
+  // optional; omitted when the challenge is generated without a base patch
   "ips_sha256": "…64 hex…",
   "weights_preset": "daily-v1",
   "score_version": 1,
