@@ -242,6 +242,9 @@ function Rom.preflight(deps)
 	end
 
 	if manifest.ips_sha256 then
+		if deps.useIps == false then
+			return false, "this challenge requires the Faster FireRed patch", info
+		end
 		local ips, ipsErr = Rom.ensureIps({ extDir = deps.extDir, util = util, config = config })
 		if not ips then
 			return false, ipsErr or "Faster FireRed patch is unavailable", info

@@ -215,6 +215,7 @@ function Run.prepareRom(ctx)
 			util = ctx.util,
 			manifest = manifest,
 			config = ctx.config,
+			useIps = ctx.useIps,
 		})
 	end
 
@@ -262,10 +263,14 @@ function Run.prepareRom(ctx)
 	Run.save(ctx, state)
 
 	local outputPath = ctx.rom.romPath(ctx.extDir, manifest.date, state.attempt)
+	local ipsPath = nil
+	if manifest.ips_sha256 and ctx.useIps ~= false then
+		ipsPath = ctx.rom.ipsPath(ctx.extDir)
+	end
 	local args = ctx.manifestModule.generationArgs(
 		manifest,
 		ctx.rom.basePath(ctx.extDir),
-		manifest.ips_sha256 and ctx.rom.ipsPath(ctx.extDir) or nil,
+		ipsPath,
 		outputPath,
 		true
 	)

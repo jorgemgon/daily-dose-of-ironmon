@@ -295,6 +295,7 @@ local function DailyDoseIronmon()
 			hud = loaded.hud,
 			diagnostics = loaded.diagnostics,
 			profile = loaded.profile,
+			useIps = true,
 			now = function()
 				return os.time()
 			end,
@@ -357,6 +358,7 @@ local function DailyDoseIronmon()
 			ctx.player.token = stored.token
 		end
 
+		ctx.useIps = getSetting("use_ips") ~= "false"
 		rebuildApi()
 		ctx.state = ctx.run.load(ctx)
 		ctx.manifest = ctx.run.loadCachedManifest(ctx, ctx.run.today(ctx.now()))
@@ -471,6 +473,14 @@ local function DailyDoseIronmon()
 			end,
 			hasToken = function()
 				return ctx.player.token ~= nil and ctx.player.token ~= ""
+			end,
+			useIps = function()
+				return ctx.useIps ~= false
+			end,
+			toggleIps = function()
+				ctx.useIps = not (ctx.useIps ~= false)
+				setSetting("use_ips", tostring(ctx.useIps))
+				return ctx.useIps
 			end,
 			twitchBegin = function()
 				return ctx.run.beginTwitchLogin(ctx)

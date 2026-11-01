@@ -98,8 +98,20 @@ local function layout()
 	addButton("TwitchCheck", x, 58, 96, function()
 		return "Check login"
 	end, checkTwitch)
+	addButton("IpsToggle", x, 74, 96, function()
+		if deps.useIps and deps.useIps() then
+			return "Patch: ON"
+		end
+		return "Patch: OFF"
+	end, function()
+		if not deps.toggleIps then
+			return
+		end
+		local enabled = deps.toggleIps()
+		SettingsScreen.status = enabled and "Faster FireRed patch enabled." or "Faster FireRed patch disabled."
+	end)
 	if deps.hasToken and deps.hasToken() then
-		addButton("CopyToken", x, 74, 64, function()
+		addButton("CopyToken", x, 90, 64, function()
 			return "Copy token"
 		end, copyToken)
 	end
