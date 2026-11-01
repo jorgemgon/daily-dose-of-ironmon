@@ -1,8 +1,9 @@
 # Troubleshooting
 
 **"Configure the API base URL"**
-The extension ships with a placeholder service URL. Set the real URL in Tracker Settings →
-Extensions → Daily Dose → Options. Nothing is sent until it starts with `https://`.
+The extension defaults to `https://daily-dose-ironmon.jorgon.workers.dev`. Set a different URL in
+Tracker Settings → Extensions → Daily Dose → Options. Nothing is sent until it starts with
+`https://`.
 
 **"Base ROM not registered"**
 Load your vanilla FireRed (U) 1.1 in BizHawk and accept the registration prompt. The extension
