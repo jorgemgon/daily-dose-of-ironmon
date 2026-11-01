@@ -8,7 +8,7 @@ Config.EXTENSION_NAME = "Daily Dose of Ironmon"
 Config.VERSION = "0.1.0"
 
 -- Set at deploy time. Requests are refused while the host still ends in `.example.workers.dev`.
-Config.DEFAULT_API_BASE = "http://127.0.0.1:8787"
+Config.DEFAULT_API_BASE = "https://daily-dose-ironmon.jorgon.workers.dev"
 Config.API_TIMEOUT_SECONDS = 20
 Config.API_MIN_INTERVAL_SECONDS = 10
 Config.API_MAX_RETRIES = 5
