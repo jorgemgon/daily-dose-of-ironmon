@@ -1,0 +1,38 @@
+# ROMs, saves and anything derived from them must never be committed.
+*.gba
+*.gbc
+*.gb
+*.nds
+*.3ds
+*.cia
+*.sav
+*.srm
+*.SaveRAM
+*.State
+*.state
+*.log
+*.bps
+
+# The vendored Faster FireRed patch is a diff, not a ROM, and must be committed.
+!daily-dose/assets/*.ips
+
+# Player/runtime state produced by the extension.
+daily-dose/state/
+daily-dose/base/
+daily-dose/jars/*.jar
+
+# Node/test artefacts.
+node_modules/
+coverage/
+.vitest/
+*.tsbuildinfo
+
+# Local secrets and environment.
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+
+# Editor/OS noise.
+.DS_Store
+Thumbs.db
