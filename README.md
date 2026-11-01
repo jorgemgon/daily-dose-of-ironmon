@@ -34,7 +34,7 @@ Full setup, including Java and the pinned randomizer jar, is in [docs/install.md
   in-game clock and real clock.
 - **Open book**: the day's log is public; the tracker runs with Open Book mode enabled.
 
-Rules: [docs/rules.md](docs/rules.md) · Scoring: [docs/scoring.md](docs/scoring.md) ·
+Rules by game: [docs/rules.md](docs/rules.md) · Scoring: [docs/scoring.md](docs/scoring.md) ·
 Attempt and resume rules: [docs/attempt.md](docs/attempt.md) · API: [docs/api.md](docs/api.md).
 
 ## Development
