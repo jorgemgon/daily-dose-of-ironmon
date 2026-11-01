@@ -78,9 +78,6 @@ end
 ---@param date string
 ---@return table? manifest, string? err
 function Run.fetchManifest(ctx, date)
-	if ctx.manifest and ctx.manifest.date == date then
-		return ctx.manifest
-	end
 	local cached = Run.loadCachedManifest(ctx, date)
 	if cached then
 		ctx.manifest = cached
