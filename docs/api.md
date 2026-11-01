@@ -18,7 +18,9 @@ Handles are 2–20 characters, start with a letter/digit, and may contain letter
 ## Daily challenge
 
 `GET /api/daily?date=YYYY-MM-DD` (public) returns the manifest for that UTC date (today by
-default). The extension rejects a manifest that fails validation or is for a different mode.
+default). Dates after the **server's** current UTC day return `404` even when a challenge has
+already been generated, and the public log/leaderboard endpoints apply the same gate. The
+extension rejects a manifest that fails validation or is for a different mode.
 
 ```json
 {
