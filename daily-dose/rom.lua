@@ -192,7 +192,6 @@ function Rom.ensureIps(deps)
 		if sha == config.IPS_SHA256 then
 			return path
 		end
-		util.removeFile(path)
 	end
 
 	local dir = deps.extDir .. "/assets"

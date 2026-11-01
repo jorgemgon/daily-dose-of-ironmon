@@ -421,3 +421,64 @@ describe("diagnostics and recovery", () => {
     expect(result).toBe("tok-1");
   });
 });
+
+describe("Rom.ensureIps", () => {
+  it("preserves a stale patch when the download fails", async () => {
+    const result = await runLua(`
+      local removed = {}
+      local util = {
+        quote = function(value) return value end,
+        fileExists = function(path) return path == "/ext/assets/faster-firered-1.2.ips" end,
+        sha256File = function() return "stale" end,
+        removeFile = function(path) table.insert(removed, path) end,
+        ensureDir = function() return true end,
+        run = function() return false, "network down" end,
+        copyFile = function() return true end,
+      }
+      local path, err = M.rom.ensureIps({
+        extDir = "/ext",
+        util = util,
+        config = { IPS_SHA256 = "pinned", IPS_URL = "https://example.test/patch.ips" },
+      })
+      assert(path == nil)
+      assert(string.find(err, "download failed", 1, true))
+      for _, value in ipairs(removed) do
+        assert(value ~= "/ext/assets/faster-firered-1.2.ips")
+      end
+      return err
+    `);
+    expect(String(result)).toContain("download failed");
+  });
+
+  it("installs a verified download", async () => {
+    const result = await runLua(`
+      local wrote = false
+      local copied = false
+      local util = {
+        quote = function(value) return value end,
+        fileExists = function(path)
+          if path == "/ext/assets/faster-firered-1.2.ips" then return false end
+          if path == "/ext/assets/faster-firered-1.2.ips.download" then return wrote end
+          return false
+        end,
+        sha256File = function(path)
+          if path == "/ext/assets/faster-firered-1.2.ips.download" then return "pinned" end
+          return "stale"
+        end,
+        removeFile = function() end,
+        ensureDir = function() return true end,
+        run = function() wrote = true; return true, "" end,
+        copyFile = function(src, dst) copied = (src == "/ext/assets/faster-firered-1.2.ips.download" and dst == "/ext/assets/faster-firered-1.2.ips"); return copied end,
+      }
+      local path = M.rom.ensureIps({
+        extDir = "/ext",
+        util = util,
+        config = { IPS_SHA256 = "pinned", IPS_URL = "https://example.test/patch.ips" },
+      })
+      assert(path == "/ext/assets/faster-firered-1.2.ips")
+      assert(copied)
+      return path
+    `);
+    expect(String(result)).toContain("faster-firered-1.2.ips");
+  });
+});

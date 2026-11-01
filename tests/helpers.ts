@@ -16,6 +16,7 @@ export const MODULES = [
   "submit",
   "diagnostics",
   "recovery",
+  "rom",
 ] as const;
 
 let sourceCache: Map<string, string> | null = null;
