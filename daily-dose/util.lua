@@ -105,10 +105,18 @@ function Util.fileSize(path)
 	return size
 end
 
+function Util.nativePath(path)
+	if IS_WINDOWS then
+		return tostring(path):gsub("/", "\\")
+	end
+	return tostring(path)
+end
+
 function Util.ensureDir(path)
 	if not path or path == "" or Util.fileExists(path) then
 		return true
 	end
+	path = Util.nativePath(path)
 	local cmd
 	if IS_WINDOWS then
 		cmd = string.format('if not exist %s mkdir %s', Util.quote(path), Util.quote(path))
@@ -121,6 +129,8 @@ end
 
 function Util.copyFile(src, dst)
 	if IS_WINDOWS then
+		src = Util.nativePath(src)
+		dst = Util.nativePath(dst)
 		local ok = os.execute(string.format("copy /Y %s %s >NUL", Util.quote(src), Util.quote(dst)))
 		return ok == true or ok == 0
 	end
