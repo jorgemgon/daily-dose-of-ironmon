@@ -31,6 +31,7 @@ See [install.md](../install.md) for the full walkthrough.
 | Weighted species | The lab and the routes up to Viridian Forest favour stronger, better-spread, better-moved Pokémon; later areas use a lighter BST weighting. Event days may bias types (published with the seed). |
 | Lab level 6 | Both the player and the rival start the lab battle at level 6 instead of level 5. |
 | Starter choice | You may choose any of the three lab starters. |
+| Lab BST cap | If the lab mon you choose has a base stat total above 599, that run is not eligible; choose another starter. |
 | Open book | The day's randomizer log is public before anyone starts. The extension enables Open Book mode automatically when the attempt opens, so trainer teams, encounters and movesets are visible. |
 | Faster FireRed 1.2 (standard) | The QoL patch is applied before randomization: hidden items are visibly marked, the Viridian Forest nurse exists, the Oak parcel quest is shortened, repels prompt reuse, instant PC heal, renamers everywhere, PC item in the lab, and the one-time friendship NPC. These are part of the daily ruleset; everyone plays the same ROM. |
 | Save states | A load that erases progress already submitted to the leaderboard voids the run. Loads before the first milestone (lab resets) are allowed. In-game saves are the supported resume point. |
