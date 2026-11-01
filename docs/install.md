@@ -38,7 +38,8 @@ official release asset from [DrMaple/Faster-FireRed](https://github.com/DrMaple/
 `https://github.com/DrMaple/Faster-FireRed/releases/download/1.2/Faster.FireRed.1.2.ips`
 
 and verifies SHA-256 `c23fca99d6f0ab0ad107f0d8a7ceee7e8b2cde0c7bcf54ccbdca66ead77035c9`
-before caching it at `daily-dose/assets/faster-firered-1.2.ips`.
+before caching it at `daily-dose/assets/faster-firered-1.2.ips`. If the challenge manifest has no
+`ips_sha256`, the patch is not required and generation runs without it.
 
 The randomizer jar is not committed: the extension fetches the exact jar pinned in the day's
 manifest into `daily-dose/jars/<sha8>.jar` and verifies its hash. The jar is GPL-3.0; its source

@@ -3,7 +3,7 @@
 Every player must generate the same ROM from the same day's manifest. The inputs are pinned:
 
 - base ROM: FireRed (U) 1.1, SHA-1 `dd5945db9b930750cb39d00c84da8571feebf417`;
-- base patch: Faster FireRed 1.2 standard, SHA-256
+- base patch: Faster FireRed 1.2 standard when the manifest includes `ips_sha256`, SHA-256
   `C23FCA99D6F0AB0AD107F0D8A7CEEE7E8B2CDE0C7BCF54CCBDCA66EAD77035C9`;
 - randomizer jar: `jar_sha256` in the manifest (fetched by hash if the local copy differs);
 - settings string: `settings_string` (hash-verified locally before generation);
