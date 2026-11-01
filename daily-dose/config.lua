@@ -28,6 +28,9 @@ Config.SUPPORTED_BASE_SHA1 = "dd5945db9b930750cb39d00c84da8571feebf417"
 Config.BASE_ROM_SIZE = 16777216
 Config.BASE_ROM_NAME = "vanilla.gba"
 Config.IPS_NAME = "faster-firered-1.2.ips"
+-- Official Faster FireRed 1.2 release asset; downloaded on first use and hash-pinned.
+Config.IPS_URL = "https://github.com/DrMaple/Faster-FireRed/releases/download/1.2/Faster.FireRed.1.2.ips"
+Config.IPS_SHA256 = "c23fca99d6f0ab0ad107f0d8a7ceee7e8b2cde0c7bcf54ccbdca66ead77035c9"
 
 Config.WEIGHTS_PRESET = "daily-v1"
 Config.LOG_FORMAT = "zx"

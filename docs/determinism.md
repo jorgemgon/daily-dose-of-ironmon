@@ -34,6 +34,6 @@ The extension never downloads a replacement ROM. It:
 5. releases the attempt: the intent expires after 2 hours without a confirm, so no day is lost.
 
 Common causes are a stale jar (the extension fetches the pinned one), a modified base ROM (hash
-shown), a stale IPS (the bundled patch is hash-checked), or a different Java runtime. If a whole
+shown), a stale IPS (the downloaded patch is hash-checked), or a different Java runtime. If a whole
 class of players diverges, the admin fixes the jar/settings and regenerates the day; the published
 hash and log change together.

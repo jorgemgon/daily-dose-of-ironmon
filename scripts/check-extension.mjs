@@ -30,7 +30,7 @@ const REQUIRED = [
   "daily-dose/hud.lua",
   "daily-dose/diagnostics.lua",
   "daily-dose/recovery.lua",
-  "daily-dose/assets/faster-firered-1.2.ips",
+
   "docs/rules.md",
   "docs/api.md",
   "docs/scoring.md",

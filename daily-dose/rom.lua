@@ -177,6 +177,51 @@ function Rom.registerFromFile(deps)
 	return true
 end
 
+---Ensures the pinned Faster FireRed patch is available, downloading it from the official
+---release asset when it is missing or stale. The patch is public and hash-checked; no ROM
+---is ever downloaded.
+---@param deps table {extDir, util, config}
+---@return string? path, string? err
+function Rom.ensureIps(deps)
+	local util = deps.util
+	local config = deps.config
+	local path = Rom.ipsPath(deps.extDir)
+
+	if util.fileExists(path) then
+		local sha = util.sha256File(path)
+		if sha == config.IPS_SHA256 then
+			return path
+		end
+		util.removeFile(path)
+	end
+
+	local dir = deps.extDir .. "/assets"
+	if not util.ensureDir(dir) then
+		return nil, "cannot create assets directory"
+	end
+	local tmp = path .. ".download"
+	local command = string.format(
+		"curl --ssl-no-revoke -sS -L -o %s %s",
+		util.quote(tmp),
+		util.quote(config.IPS_URL)
+	)
+	local ok, output = util.run(command)
+	if not ok or not util.fileExists(tmp) then
+		return nil, "Faster FireRed patch download failed: " .. tostring(output)
+	end
+	local sha = util.sha256File(tmp)
+	if sha ~= config.IPS_SHA256 then
+		util.removeFile(tmp)
+		return nil, "downloaded Faster FireRed patch hash mismatch"
+	end
+	if not util.copyFile(tmp, path) then
+		util.removeFile(tmp)
+		return nil, "could not store Faster FireRed patch"
+	end
+	util.removeFile(tmp)
+	return path
+end
+
 ---Checks the local assets against the manifest before generating.
 ---@param deps table {extDir, util, manifest, config}
 ---@return boolean ok, string? err, table info
@@ -195,9 +240,9 @@ function Rom.preflight(deps)
 		return false, "base ROM hash does not match FireRed 1.1", info
 	end
 
-	local ips = Rom.ipsPath(deps.extDir)
-	if not util.fileExists(ips) then
-		return false, "Faster FireRed patch is missing", info
+	local ips, ipsErr = Rom.ensureIps({ extDir = deps.extDir, util = util, config = config })
+	if not ips then
+		return false, ipsErr or "Faster FireRed patch is unavailable", info
 	end
 	local ipsSha = util.sha256File(ips)
 	info.ipsSha = ipsSha

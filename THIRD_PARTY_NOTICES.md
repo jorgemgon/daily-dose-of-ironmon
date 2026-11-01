@@ -20,10 +20,13 @@ About text and in `docs/install.md`.
 
 ## Faster-FireRed patch
 
-`daily-dose/assets/faster-firered-1.2.ips` is the standard build of **Faster FireRed 1.2** by
-DrMaple, applied to the player's own FireRed (U) 1.1 before randomization:
+**Faster FireRed 1.2** by DrMaple is applied to the player's own FireRed (U) 1.1 before
+randomization:
 
 - Source: https://github.com/DrMaple/Faster-FireRed
+- Release asset: https://github.com/DrMaple/Faster-FireRed/releases/tag/1.2
+- The patch is downloaded on first use by the extension and hash-verified; it is not redistributed
+  in this repository.
 - The patch is distributed as an IPS diff; it contains no ROM data.
 
 ## Ironmon Tracker

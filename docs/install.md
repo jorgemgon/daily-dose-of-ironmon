@@ -30,11 +30,15 @@
      settings string;
    - it compares the generated SHA-1 with the manifest and opens the ROM in BizHawk.
 
-## Bundled assets
+## Downloaded assets
 
-| Asset | Purpose | SHA-256 |
-|---|---|---|
-| `daily-dose/assets/faster-firered-1.2.ips` | Faster FireRed 1.2 standard QoL patch (216 513 bytes, applied before randomization) | `C23FCA99D6F0AB0AD107F0D8A7CEEE7E8B2CDE0C7BCF54CCBDCA66EAD77035C9` |
+The Faster FireRed 1.2 patch is not bundled. On first generation the extension downloads the
+official release asset from [DrMaple/Faster-FireRed](https://github.com/DrMaple/Faster-FireRed/releases/tag/1.2):
+
+`https://github.com/DrMaple/Faster-FireRed/releases/download/1.2/Faster.FireRed.1.2.ips`
+
+and verifies SHA-256 `c23fca99d6f0ab0ad107f0d8a7ceee7e8b2cde0c7bcf54ccbdca66ead77035c9`
+before caching it at `daily-dose/assets/faster-firered-1.2.ips`.
 
 The randomizer jar is not committed: the extension fetches the exact jar pinned in the day's
 manifest into `daily-dose/jars/<sha8>.jar` and verifies its hash. The jar is GPL-3.0; its source
@@ -44,7 +48,7 @@ lives in the `ddoz-zx-randomizer` fork.
 
 ```
 extensions/daily-dose/
-  assets/faster-firered-1.2.ips   bundled patch
+  assets/faster-firered-1.2.ips   downloaded Faster FireRed patch (hash-verified)
   base/vanilla.gba                your base ROM dump (never leaves your machine)
   jars/<sha8>.jar                 pinned randomizer jars
   roms/<date>.gba (+ .log)        generated daily ROM and its ZX-format log
