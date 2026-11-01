@@ -443,7 +443,7 @@ function Run.confirmIfReady(ctx, observation)
 	if partySize < 1 then
 		return false
 	end
-	if not ctx.manifest or ctx.romHash() ~= ctx.manifest.rom_sha1 then
+	if not ctx.manifest or tostring(ctx.romHash() or ""):lower() ~= tostring(ctx.manifest.rom_sha1 or ""):lower() then
 		return false
 	end
 

@@ -187,12 +187,7 @@ function Rom.ensureIps(deps)
 	local config = deps.config
 	local path = Rom.ipsPath(deps.extDir)
 
-	if util.fileExists(path) then
-		local sha = util.sha256File(path)
-		if sha == config.IPS_SHA256 then
-			return path
-		end
-	end
+	local cachedValid = util.fileExists(path) and util.sha256File(path) == config.IPS_SHA256
 
 	local dir = deps.extDir .. "/assets"
 	if not util.ensureDir(dir) then
@@ -206,11 +201,18 @@ function Rom.ensureIps(deps)
 	)
 	local ok, output = util.run(command)
 	if not ok or not util.fileExists(tmp) then
+		util.removeFile(tmp)
+		if cachedValid then
+			return path
+		end
 		return nil, "Faster FireRed patch download failed: " .. tostring(output)
 	end
 	local sha = util.sha256File(tmp)
 	if sha ~= config.IPS_SHA256 then
 		util.removeFile(tmp)
+		if cachedValid then
+			return path
+		end
 		return nil, "downloaded Faster FireRed patch hash mismatch"
 	end
 	if not util.copyFile(tmp, path) then
