@@ -223,17 +223,6 @@ local function DailyDoseIronmon()
 		end
 	end
 
-	local function copyToken()
-		if not ctx.player.token or ctx.player.token == "" then
-			return "No token yet."
-		end
-		if gui and type(gui.setclipboard) == "function" then
-			gui.setclipboard(ctx.player.token)
-			return "Token copied to the clipboard."
-		end
-		return "Clipboard unavailable; token is in Settings.ini."
-	end
-
 	local function observe()
 		if not trackerReady() then
 			return { partySize = 0 }
@@ -471,9 +460,6 @@ local function DailyDoseIronmon()
 			handle = function()
 				return ctx.player.handle
 			end,
-			hasToken = function()
-				return ctx.player.token ~= nil and ctx.player.token ~= ""
-			end,
 			useIps = function()
 				return ctx.useIps ~= false
 			end,
@@ -495,7 +481,6 @@ local function DailyDoseIronmon()
 					print("> " .. tostring(url))
 				end
 			end,
-			copyToken = copyToken,
 			back = function()
 				Program.changeScreenView(SingleExtensionScreen or CustomExtensionsScreen or TrackerScreen)
 			end,

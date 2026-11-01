@@ -88,10 +88,6 @@ local function layout()
 		end
 	end
 
-	local function copyToken()
-		SettingsScreen.status = deps.copyToken() or "No token yet."
-	end
-
 	addButton("TwitchLogin", x, 42, 96, function()
 		return "Login with Twitch"
 	end, loginWithTwitch)
@@ -110,11 +106,6 @@ local function layout()
 		local enabled = deps.toggleIps()
 		SettingsScreen.status = enabled and "Faster FireRed patch enabled." or "Faster FireRed patch disabled."
 	end)
-	if deps.hasToken and deps.hasToken() then
-		addButton("CopyToken", x, 90, 64, function()
-			return "Copy token"
-		end, copyToken)
-	end
 
 	SettingsScreen.Buttons.Back = Drawing.createUIElementBackButton(function()
 		if deps.back then
@@ -126,7 +117,7 @@ local function layout()
 end
 
 ---@param ctx table
----@param deps table {handle, twitchBegin, twitchCheck, openBrowser, copyToken, back}
+---@param deps table {handle, twitchBegin, twitchCheck, useIps, toggleIps, openBrowser, back}
 function SettingsScreen.attach(ctx, deps)
 	SettingsScreen.ctx = ctx
 	SettingsScreen.deps = deps
