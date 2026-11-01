@@ -22,7 +22,7 @@ be `<PUBLIC_BASE_URL>/api/auth/twitch/callback`.
 
 | Method | Path | Body | Response |
 |---|---|---|---|
-| POST | `/api/players` | `{ "handle", "device_id" }` | `{ "handle", "token" }` (token shown once) |
+| POST | `/api/players` | – | `410 { "message": "Twitch login is required" }` |
 | POST | `/api/players/recover` | `{ "handle", "code" }` | `{ "handle", "token" }` |
 | GET | `/api/me` | – | `{ "handle", "runs": [...] }` |
 
