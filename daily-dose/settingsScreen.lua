@@ -7,6 +7,7 @@ SettingsScreen.deps = nil
 SettingsScreen.ctx = nil
 SettingsScreen.pendingHandle = nil
 SettingsScreen.pendingCode = nil
+SettingsScreen.pendingTwitch = nil
 SettingsScreen.recoveryMode = false
 SettingsScreen.status = ""
 
@@ -57,17 +58,6 @@ local function currentHandle()
 	return SettingsScreen.pendingHandle or (deps and deps.handle()) or ""
 end
 
-local function doRegister()
-	local deps = SettingsScreen.deps
-	local handle = currentHandle()
-	if handle == "" then
-		SettingsScreen.status = "Set a handle first."
-		return
-	end
-	local ok, err = deps.register(handle)
-	SettingsScreen.status = ok and "Registered." or tostring(err)
-end
-
 local function doRecover()
 	local deps = SettingsScreen.deps
 	local handle = currentHandle()
@@ -115,25 +105,24 @@ local function layout()
 			return "Copy token"
 		end, copyToken)
 	else
-		addButton("SetHandle", x, 42, 72, function()
-			return "Set handle"
-		end, function()
-			prompt("Handle (2-20 letters, digits, _ . -)", currentHandle(), function(value)
-				SettingsScreen.pendingHandle = value
-				if deps.hasToken and deps.hasToken() then
-					SettingsScreen.status = "Already registered as " .. tostring(deps.handle() or "?")
-					return
-				end
-				doRegister()
-			end)
-		end)
-		addButton("RecoverAccount", x, 58, 96, function()
+		addButton("TwitchLogin", x, 42, 96, function()
+			return "Login with Twitch"
+		end, loginWithTwitch)
+		addButton("TwitchCheck", x, 58, 96, function()
+			return "Check login"
+		end, checkTwitch)
+		addButton("RecoverAccount", x, 74, 96, function()
 			return "Recover account"
 		end, function()
 			SettingsScreen.recoveryMode = true
 			SettingsScreen.status = "Enter the admin-issued code."
 			layout()
 		end)
+		if deps.hasToken and deps.hasToken() then
+			addButton("CopyToken", x, 90, 64, function()
+				return "Copy token"
+			end, copyToken)
+		end
 	end
 
 	SettingsScreen.Buttons.Back = Drawing.createUIElementBackButton(function()
@@ -152,6 +141,7 @@ function SettingsScreen.attach(ctx, deps)
 	SettingsScreen.deps = deps
 	SettingsScreen.pendingHandle = nil
 	SettingsScreen.pendingCode = nil
+SettingsScreen.pendingTwitch = nil
 	SettingsScreen.recoveryMode = false
 	SettingsScreen.status = ""
 	layout()

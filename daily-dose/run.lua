@@ -146,6 +146,42 @@ function Run.recover(ctx, handle, code)
 	return true
 end
 
+---@param ctx table
+---@return table? session, string? err
+function Run.beginTwitchLogin(ctx)
+	local response = ctx.api:createTwitchSession()
+	if not response or response.err then
+		return nil, response and response.err or "network request failed"
+	end
+	if response.status ~= 201 or not response.data then
+		local message = response.data and response.data.message or ("server returned " .. tostring(response.status))
+		return nil, message
+	end
+	return response.data
+end
+
+---@param ctx table
+---@param sessionId string
+---@param pollToken string
+---@return boolean ok, string? err
+function Run.completeTwitchLogin(ctx, sessionId, pollToken)
+	local response = ctx.api:pollTwitchSession(sessionId, pollToken)
+	if not response or response.err then
+		return false, response and response.err or "network request failed"
+	end
+	if response.status == 202 then
+		return false, "Twitch login is still pending"
+	end
+	if response.status ~= 200 or not response.data or type(response.data.token) ~= "string" then
+		local message = response.data and response.data.message or ("server returned " .. tostring(response.status))
+		return false, message
+	end
+	ctx.player.handle = response.data.handle
+	ctx.player.token = response.data.token
+	ctx.identity.save(ctx.identityDeps, ctx.player)
+	return true
+end
+
 ---Requests the single start intent for today. Consumes the day server-side.
 ---@param ctx table
 ---@return boolean ok, string? err

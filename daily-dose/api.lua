@@ -58,6 +58,14 @@ function Api:getDaily(date)
 	return self:request("GET", path)
 end
 
+function Api:createTwitchSession()
+	return self:request("POST", "/api/auth/twitch/session", {})
+end
+
+function Api:pollTwitchSession(sessionId, pollToken)
+	return self:request("POST", "/api/auth/twitch/session/" .. sessionId .. "/poll", { poll_token = pollToken })
+end
+
 function Api:register(handle, deviceId)
 	return self:request("POST", "/api/players", { handle = handle, device_id = deviceId })
 end

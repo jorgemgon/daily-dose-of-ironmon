@@ -9,7 +9,7 @@ from the standard, Ultimate and Kaizo rulesets applies unless a daily override s
 1. Install the Ironmon Tracker (9.3+) in BizHawk.
 2. Copy the Daily Dose extension folder into `<tracker>/extensions` and enable it in
    Tracker Settings.
-3. Open the DDI screen, set your handle, and register your own clean FireRed (U) 1.1 ROM when
+3. Open the DDI screen, log in with Twitch, and register your own clean FireRed (U) 1.1 ROM when
    prompted. No ROMs are hosted here.
 4. Java 8+ is required; the extension uses the Tracker’s Java path or finds a compatible JDK.
 5. Press **Start attempt**: the extension applies Faster FireRed, runs the pinned randomizer and

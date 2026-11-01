@@ -19,7 +19,7 @@
    it on manually under the tracker gear → **Gameplay** → **Other**.
 3. Open the Daily Dose screen (the `[DDI]` chip at the bottom-right of the tracker panel, or it
    opens automatically when a Daily Dose ROM is loaded).
-4. **Register / recover** → pick a handle. The token is stored in the tracker's `Settings.ini`
+4. **Login with Twitch** → finish the browser login, then press **Check login**. The token is stored in the tracker's `Settings.ini`
    and `extensions/daily-dose/state/player.json`; use **Copy token** to back it up.
 5. Load your vanilla FireRed 1.1 ROM once. The extension offers to register it: it dumps the
    loaded image to `extensions/daily-dose/base/vanilla.gba` and verifies its SHA-1 locally.

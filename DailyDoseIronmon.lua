@@ -147,7 +147,7 @@ local function DailyDoseIronmon()
 		if ctx.player.token and ctx.player.token ~= "" then
 			return true
 		end
-		showMessage("Daily Dose", "Register a handle first (Register / recover).")
+		showMessage("Daily Dose", "Log in with Twitch first (Settings → Login with Twitch).")
 		return false
 	end
 

@@ -4,6 +4,20 @@ The extension speaks JSON over HTTPS to the service base URL configured in the t
 (Settings → Extensions → Daily Dose → Options). All requests use `Authorization: Bearer <token>`
 unless noted. Errors are `{ "message": "..." }` with a non-2xx status.
 
+## Twitch login
+
+The extension logs in with Twitch instead of typing a handle.
+
+| Method | Path | Body | Response |
+|---|---|---|---|
+| POST | `/api/auth/twitch/session` | – | `{ "session_id", "poll_token", "login_url", "expires_at" }` |
+| GET | `/api/auth/twitch/start?session=…` | – | redirect to Twitch |
+| GET | `/api/auth/twitch/callback` | – | Twitch OAuth callback |
+| POST | `/api/auth/twitch/session/:id/poll` | `{ "poll_token" }` | `202 { "status": "pending" }` or `200 { "status": "complete", "token", "handle" }` |
+
+The browser session lasts 10 minutes. The player handle is the Twitch login. The service needs
+`TWITCH_CLIENT_ID`, `TWITCH_CLIENT_SECRET` and `PUBLIC_BASE_URL`; the Twitch app redirect URL must
+be `<PUBLIC_BASE_URL>/api/auth/twitch/callback`.
 ## Player
 
 | Method | Path | Body | Response |
