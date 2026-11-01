@@ -414,7 +414,12 @@ local function DailyDoseIronmon()
 		ctx.hud.draw(ctx)
 		chipRect = nil
 		-- Entry point: a small DDI button in the Tracker Settings header, after the title.
-		if Program.currentScreen == NavigationMenu then
+		-- Only show it once Twitch login has produced a player token.
+		if
+			Program.currentScreen == NavigationMenu
+			and ctx.player.token
+			and ctx.player.token ~= ""
+		then
 			local title = Utils.toUpperUTF8(Resources.NavigationMenu.Title)
 			local version = "v" .. tostring(Main.TrackerVersion)
 			local x = Constants.SCREEN.WIDTH + Constants.SCREEN.MARGIN + Utils.calcWordPixelLength(title) + 6
