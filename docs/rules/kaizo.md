@@ -2,7 +2,7 @@
 
 The daily mode is **Kaizo Ironmon** on FireRed (U) 1.1, with the modifications below. Everything
 from the standard, Ultimate and Kaizo rulesets applies unless a daily override says otherwise
-(source: the Ironmon rules gist linked from the tracker community).
+[Original Kaizo / Ironmon rules](https://gist.github.com/valiant-code/adb18d248fa0fae7da6b639e2ee8f9c1).
 
 ## Daily overrides
 
