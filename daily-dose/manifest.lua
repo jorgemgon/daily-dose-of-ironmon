@@ -48,7 +48,7 @@ function Manifest.validate(manifest, opts)
 	if not isHex(manifest.settings_sha256, 64) then
 		return false, "invalid settings_sha256"
 	end
-	if not isHex(manifest.ips_sha256, 64) then
+	if manifest.ips_sha256 ~= nil and not isHex(manifest.ips_sha256, 64) then
 		return false, "invalid ips_sha256"
 	end
 	if type(manifest.weights_preset) ~= "string" or manifest.weights_preset == "" then
@@ -156,12 +156,14 @@ function Manifest.generationArgs(manifest, baseRomPath, ipsPath, outputPath, wit
 		tostring(manifest.seed),
 		"-S",
 		manifest.settings_string,
-		"--base-ips",
-		ipsPath,
 		"--weights-preset",
 		manifest.weights_preset or "daily-v1",
 		"--guaranteed-catch",
 	}
+	if ipsPath then
+		table.insert(args, "--base-ips")
+		table.insert(args, ipsPath)
+	end
 	if withLog ~= false then
 		args[#args + 1] = "-l"
 		args[#args + 1] = "--log-format"

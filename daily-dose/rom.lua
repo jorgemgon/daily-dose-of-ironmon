@@ -239,14 +239,16 @@ function Rom.preflight(deps)
 		return false, "base ROM hash does not match FireRed 1.1", info
 	end
 
-	local ips, ipsErr = Rom.ensureIps({ extDir = deps.extDir, util = util, config = config })
-	if not ips then
-		return false, ipsErr or "Faster FireRed patch is unavailable", info
-	end
-	local ipsSha = util.sha256File(ips)
-	info.ipsSha = ipsSha
-	if ipsSha ~= manifest.ips_sha256 then
-		return false, "Faster FireRed patch hash does not match the manifest", info
+	if manifest.ips_sha256 then
+		local ips, ipsErr = Rom.ensureIps({ extDir = deps.extDir, util = util, config = config })
+		if not ips then
+			return false, ipsErr or "Faster FireRed patch is unavailable", info
+		end
+		local ipsSha = util.sha256File(ips)
+		info.ipsSha = ipsSha
+		if ipsSha ~= manifest.ips_sha256 then
+			return false, "Faster FireRed patch hash does not match the manifest", info
+		end
 	end
 
 	local settingsFile = deps.extDir .. "/state/.settings.tmp"

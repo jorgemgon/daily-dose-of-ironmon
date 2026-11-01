@@ -167,6 +167,19 @@ describe("manifest", () => {
     expect(result).toBe("grace");
   });
 
+  it("omits the base patch when no IPS is published", async () => {
+    const result = await runLua(`
+      local manifest = assert(M.json.decode(__manifest_json))
+      manifest.ips_sha256 = nil
+      local ok, err = M.manifest.validate(manifest)
+      assert(ok, err)
+      local args = M.manifest.generationArgs(manifest, "base.gba", nil, "out.gba", true)
+      local joined = table.concat(args, " ")
+      assert(not joined:find("--base-ips", 1, true))
+      return joined
+    `, globals);
+    expect(String(result)).toContain("--guaranteed-catch");
+  });
   it("builds pinned generation arguments", async () => {
     const result = await runLua(
       `

@@ -305,7 +305,7 @@ function Run.prepareRom(ctx)
 	local args = ctx.manifestModule.generationArgs(
 		manifest,
 		ctx.rom.basePath(ctx.extDir),
-		ctx.rom.ipsPath(ctx.extDir),
+		manifest.ips_sha256 and ctx.rom.ipsPath(ctx.extDir) or nil,
 		outputPath,
 		true
 	)
